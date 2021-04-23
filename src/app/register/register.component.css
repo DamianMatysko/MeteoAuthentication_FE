@@ -1,0 +1,28 @@
+
+.checkbox {
+        display: block;
+     
+      }
+
+
+.form-wrapper{
+    width: 30%;
+    
+}
+  .register-wrapper {
+    width: 100vw;
+    height: 80%;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+  }
+
+  .register-wrapper mat-card-header,
+.register-wrapper mat-card-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.register-wrapper mat-form-field {
+  display: block;
+}

@@ -1,0 +1,52 @@
+<mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="search..." #input>
+  </mat-form-field>
+  <table mat-table [dataSource]="metheoDataSource" matSort>
+    <mat-text-column name="id" headerText="ID"></mat-text-column>
+  
+  
+  
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+      <td mat-cell *matCellDef="let metheo">{{metheo.date}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="temp">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Temp</th>
+      <td mat-cell *matCellDef="let metheo">
+       {{metheo.temp}}°C
+      </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="tempMin">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Temp min</th>
+      <td mat-cell *matCellDef="let metheo">
+        {{metheo.tempMin}}°C
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="tempMax">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Temp max</th>
+        <td mat-cell *matCellDef="let metheo">
+            {{metheo.tempMax}}°C
+        </td>
+      </ng-container>
+  
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let metheo">
+        
+        <button mat-icon-button color="warn" >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+    <tr mat-row *matRowDef="let row; columns: columns"></tr>
+  </table>
+  <mat-paginator [length]="100"
+                [pageSize]="5"
+                [pageSizeOptions]="[2, 5, 10, 25, 100]">
+  </mat-paginator>
