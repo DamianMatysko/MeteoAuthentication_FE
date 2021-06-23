@@ -14,6 +14,8 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {AuthorizationInterceptor} from './interceptors/authorization-interceptor.service';
 import {StationsComponent} from './stations/stations.component';
 import {RegisterStationComponent} from './register-station/register-station.component';
+import {ShowTokenComponent} from './show-token/show-token.component';
+import {ClipboardModule} from '@angular/cdk/clipboard';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import {RegisterStationComponent} from './register-station/register-station.comp
     RegisterComponent,
     DashboardComponent,
     StationsComponent,
-    RegisterStationComponent
+    RegisterStationComponent,
+    ShowTokenComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,8 @@ import {RegisterStationComponent} from './register-station/register-station.comp
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ClipboardModule
   ],
   providers: [
     {

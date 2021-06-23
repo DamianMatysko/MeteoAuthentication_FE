@@ -1,0 +1,7 @@
+<div class="mat-form-field-flex">
+  <div [innerHTML]="token"></div>
+  <button mat-button [cdkCopyToClipboard]="token">Copy to clipboard</button>
+  <button mat-button (click)="onClose()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
