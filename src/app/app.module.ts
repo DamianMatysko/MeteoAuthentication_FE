@@ -9,8 +9,11 @@ import {MaterialModule} from './material.module';
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ReactiveFormsModule} from '@angular/forms';
+import {AuthorizationInterceptor} from './interceptors/authorization-interceptor.service';
+import {StationsComponent} from './stations/stations.component';
+import {RegisterStationComponent} from './register-station/register-station.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +21,9 @@ import {ReactiveFormsModule} from '@angular/forms';
     NavBarComponent,
     LoginComponent,
     RegisterComponent,
-    DashboardComponent
+    DashboardComponent,
+    StationsComponent,
+    RegisterStationComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +33,13 @@ import {ReactiveFormsModule} from '@angular/forms';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthorizationInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {AuthenticationServiceService} from '../services/authentication-service.service';
+import {AuthenticationService} from '../services/authentication.service';
 import {JWT_KEY} from '../config/constants';
 import {Router} from '@angular/router';
 import {catchError, first} from 'rxjs/operators';
@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
     pass: new FormControl(null, [Validators.required]),
   });
 
-  constructor(private authenticationServiceService: AuthenticationServiceService, private router: Router) {
+  constructor(private authenticationServiceService: AuthenticationService, private router: Router) {
   }
 
   ngOnInit(): void {

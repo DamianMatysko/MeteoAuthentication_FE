@@ -1,8 +1,10 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-import {Metheo} from 'src/entities/metheo';
+import {MeasuredValues} from 'src/app/models/measuredValues';
+import {MeasuredValuesService} from '../services/measured-values.service';
+import {MatDialog} from '@angular/material/dialog';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,30 +13,39 @@ import {Metheo} from 'src/entities/metheo';
 })
 export class DashboardComponent implements AfterViewInit {
 
-  metheoDataSource = new MatTableDataSource<Metheo>();
-  columns = ['id', 'date', 'temp', 'tempMin', 'tempMax', 'actions'];
+  columns = ['id', 'measurement_time', 'humidity', 'temperature', 'air_quality', 'wind_speed', 'wind_gusts', 'wind_direction', 'rainfall'];
+  listData: MatTableDataSource<MeasuredValues>;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   @ViewChild(MatSort) sort: MatSort;
 
-  metheoArr: Array<Metheo> = [];
+  metheoArr: Array<MeasuredValues> = [];
 
-  constructor() {
+  constructor(private measuredValuesService: MeasuredValuesService,
+              private dialog: MatDialog,
+              private snackBar: MatSnackBar) {
 
   }
+
 
   ngAfterViewInit(): void {
-    this.metheoDataSource.paginator = this.paginator;
-    this.metheoDataSource.sort = this.sort;
-
-
-    this.metheoArr.push(new Metheo('2021-3-9', 10, 5, 16, 1));
-    this.metheoDataSource.data = this.metheoArr;
+    this.refreshList();
   }
 
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.metheoDataSource.filter = filterValue.trim().toLowerCase();
+  private refreshList() {
+    this.measuredValuesService.getAllMeasuredValues().subscribe(value => {
+      this.listData = new MatTableDataSource(value);
+      this.listData.sort = this.sort;
+      console.log(value);
+    });
   }
+
+  applyFilter(filtervalue: KeyboardEvent): void {
+    this.listData.filter = (filtervalue.target as HTMLInputElement).value.trim().toLocaleLowerCase();
+  }
+
+
 }
+
+

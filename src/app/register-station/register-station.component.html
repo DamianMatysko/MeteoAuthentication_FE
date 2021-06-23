@@ -1,0 +1,40 @@
+<div class="register-wrapper">
+  <form class="form-wrapper" [formGroup]="stationRegForm" (submit)="registerStation()">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title>Register Station</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          <mat-form-field appearance="fill">
+            <mat-label>Title</mat-label>
+            <input matInput required formControlName="title">
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Destination</mat-label>
+            <input matInput required formControlName="destination">
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Model Description</mat-label>
+            <input matInput required formControlName="model_description">
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Phone</mat-label>
+            <input matInput required formControlName="phone">
+          </mat-form-field>
+
+
+
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button type="submit" mat-stroked-button color="primary"
+        >Register
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>

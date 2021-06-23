@@ -4,6 +4,8 @@ import {LoginComponent} from './login/login.component';
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {LoginGuardGuard} from './guards/login-guard.guard';
+import {StationsComponent} from './stations/stations.component';
+import {RegisterStationComponent} from './register-station/register-station.component';
 
 const routes: Routes = [
   {
@@ -14,6 +16,12 @@ const routes: Routes = [
   },
   {
     path: 'dashboard', component: DashboardComponent, canActivate: [LoginGuardGuard]
+  },
+  {
+    path: 'stations', component: StationsComponent, canActivate: [LoginGuardGuard]
+  },
+  {
+    path: 'registerStation', component: RegisterStationComponent, canActivate: [LoginGuardGuard]
   }
 ];
 
