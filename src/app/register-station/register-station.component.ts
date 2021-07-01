@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {StationsService} from '../services/stations.service';
 import {catchError, first} from 'rxjs/operators';
-import {JWT_KEY} from '../config/constants';
-import {Station} from '../models/station';
+import {Router} from '@angular/router';
+import {StationsComponent} from '../stations/stations.component';
 
 @Component({
   selector: 'app-register-station',
@@ -19,13 +19,17 @@ export class RegisterStationComponent implements OnInit {
     phone: new FormControl(null, [Validators.required])
   });
 
-  constructor(private  stationsService: StationsService) {
+  constructor(private  stationsService: StationsService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
   }
 
   registerStation(): any {
+    if (this.stationRegForm.invalid){
+      return false;
+    }
     const station: { title: string; destination: string; model_description: string; phone: string } = this.stationRegForm.getRawValue() as {
       title: string, destination: string, model_description: string, phone: string
     };
@@ -35,7 +39,9 @@ export class RegisterStationComponent implements OnInit {
         console.warn('wrong credentials');
         throw err;
       })
-    ).subscribe();
+    ).subscribe(value => {
+      this.router.navigate(['stations']);
+    });
   }
 
 }

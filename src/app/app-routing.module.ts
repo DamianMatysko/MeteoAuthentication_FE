@@ -21,7 +21,7 @@ const routes: Routes = [
     path: 'stations', component: StationsComponent, canActivate: [LoginGuardGuard]
   },
   {
-    path: 'registerStation', component: RegisterStationComponent, canActivate: [LoginGuardGuard]
+    path: 'register-station', component: RegisterStationComponent, canActivate: [LoginGuardGuard]
   }
 ];
 
