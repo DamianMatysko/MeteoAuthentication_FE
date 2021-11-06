@@ -16,43 +16,43 @@ export class AuthorizationInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 
-    //   let authReq = request;
-    //   const loginPath = '/login';
-    //   const token = this.token.getToken();
-    //   if (token != null) {
-    //     // authReq = request.clone({headers: request.headers.set(TOKEN_HEADER_KEY, 'Bearer ' + token)});
-    //     authReq = request.clone({setHeaders: {Authorization: 'Bearer ' + token}});
-    //   }
-    //   return next.handle(authReq).pipe(tap(() => {
-    //     },
-    //     (err: any) => {
-    //       if (err instanceof HttpErrorResponse) {
-    //         if (err.status !== 401 || window.location.pathname === loginPath) {
-    //           return;
-    //         }
-    //         this.token.signOut();
-    //         window.location.href = loginPath;
-    //       }
-    //     }
-    //   ));
+  //   let authReq = request;
+  //   const loginPath = '/login';
+  //   const token = this.token.getToken();
+  //   if (token != null) {
+  //     // authReq = request.clone({headers: request.headers.set(TOKEN_HEADER_KEY, 'Bearer ' + token)});
+  //     authReq = request.clone({setHeaders: {Authorization: 'Bearer ' + token}});
+  //   }
+  //   return next.handle(authReq).pipe(tap(() => {
+  //     },
+  //     (err: any) => {
+  //       if (err instanceof HttpErrorResponse) {
+  //         if (err.status !== 401 || window.location.pathname === loginPath) {
+  //           return;
+  //         }
+  //         this.token.signOut();
+  //         window.location.href = loginPath;
+  //       }
+  //     }
+  //   ));
+ // }
 
+      const token = this.token.getToken();
+      console.log(token);
+      if (token === null) {
+        return next.handle(request);
+      }
+      request = request.clone({
+        setHeaders: {
+          Authorization: 'Bearer ' + token
+        }
+      });
 
-    const token = this.token.getToken();
-    console.log(token);
-    if (token === null) {
       return next.handle(request);
     }
-    request = request.clone({
-      setHeaders: {
-        Authorization: 'Bearer ' + token
-      }
-    });
 
-    return next.handle(request);
-  }
 
 }
-
 export const authInterceptorProviders = [
   {provide: HTTP_INTERCEPTORS, useClass: AuthorizationInterceptor, multi: true}
 ];
