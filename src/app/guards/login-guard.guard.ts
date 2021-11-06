@@ -3,18 +3,21 @@ import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Route
 import {Observable} from 'rxjs';
 import {JWT_KEY} from '../config/constants';
 import {JwtHelper} from '../../helpers/jwt-helper';
+import {TokenStorageService} from '../services/token-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginGuardGuard implements CanActivate {
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              private token: TokenStorageService) {
   }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    const token = localStorage.getItem(JWT_KEY);
+    // const token = localStorage.getItem(JWT_KEY);
+    const token = this.token.getToken();
     if (token === null) {
       this.router.navigate(['login']);
       return false;

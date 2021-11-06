@@ -16,6 +16,10 @@ import {StationsComponent} from './stations/stations.component';
 import {RegisterStationComponent} from './register-station/register-station.component';
 import {ShowTokenComponent} from './show-token/show-token.component';
 import {ClipboardModule} from '@angular/cdk/clipboard';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatTableModule} from '@angular/material/table';
+import {StationDetailComponent} from './station-detail/station-detail.component';
+
 
 @NgModule({
   declarations: [
@@ -26,7 +30,8 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
     DashboardComponent,
     StationsComponent,
     RegisterStationComponent,
-    ShowTokenComponent
+    ShowTokenComponent,
+    StationDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +40,9 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
     BrowserAnimationsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    ClipboardModule
+    ClipboardModule,
+    MatFormFieldModule,
+    MatTableModule
   ],
   providers: [
     {
@@ -46,5 +53,6 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule {
 }

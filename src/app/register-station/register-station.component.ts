@@ -3,7 +3,6 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {StationsService} from '../services/stations.service';
 import {catchError, first} from 'rxjs/operators';
 import {Router} from '@angular/router';
-import {StationsComponent} from '../stations/stations.component';
 
 @Component({
   selector: 'app-register-station',
@@ -19,7 +18,7 @@ export class RegisterStationComponent implements OnInit {
     phone: new FormControl(null, [Validators.required])
   });
 
-  constructor(private  stationsService: StationsService,
+  constructor(private stationsService: StationsService,
               private router: Router) {
   }
 
@@ -27,7 +26,7 @@ export class RegisterStationComponent implements OnInit {
   }
 
   registerStation(): any {
-    if (this.stationRegForm.invalid){
+    if (this.stationRegForm.invalid) {
       return false;
     }
     const station: { title: string; destination: string; model_description: string; phone: string } = this.stationRegForm.getRawValue() as {

@@ -8,7 +8,7 @@ import {Station} from '../models/station';
   providedIn: 'root'
 })
 export class StationsService {
-  readonly APIUrl = 'http://localhost:4200/api/stations';
+  readonly APIUrl = 'http://localhost:9090/api/stations';
   public currentUser: Observable<User>;
 
   constructor(private httpService: HttpClient) {

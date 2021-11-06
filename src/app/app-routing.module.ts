@@ -6,6 +6,7 @@ import {Routes, RouterModule} from '@angular/router';
 import {LoginGuardGuard} from './guards/login-guard.guard';
 import {StationsComponent} from './stations/stations.component';
 import {RegisterStationComponent} from './register-station/register-station.component';
+import {StationDetailComponent} from './station-detail/station-detail.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,9 @@ const routes: Routes = [
   },
   {
     path: 'register-station', component: RegisterStationComponent, canActivate: [LoginGuardGuard]
+  },
+  {
+    path: 'station-detail/:id', component: StationDetailComponent, canActivate: [LoginGuardGuard]
   }
 ];
 

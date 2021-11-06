@@ -42,6 +42,7 @@
         <mat-header-cell *matHeaderCellDef  mat-sort-header>options</mat-header-cell>
         <mat-header-cell *matCellDef="let element">
           <button (click)="getToken(element.id)" mat-button>Generate token</button>
+          <button (click)="getStationDetail(element.id)" mat-button>Details</button>
         </mat-header-cell>
       </ng-container>
 

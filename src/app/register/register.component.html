@@ -1,47 +1,46 @@
 <div class="register-wrapper">
-  <form class="form-wrapper">
+  <form class="form-wrapper" [formGroup]="regForm" (submit)="register()">
     <mat-card class="example-card">
       <mat-card-header>
         <mat-card-title>Register</mat-card-title>
       </mat-card-header>
+
       <mat-card-content>
         <p>
           <mat-form-field appearance="fill">
-            <mat-label>Login name</mat-label>
+            <mat-label>Username</mat-label>
             <input matInput required formControlName="username">
           </mat-form-field>
 
           <mat-form-field appearance="fill">
-            <mat-label>E-mail</mat-label>
-            <input matInput required email formControlName="email">
-          </mat-form-field>
-
-          <mat-form-field appearance="fill">
             <mat-label>Password</mat-label>
-            <input matInput [type]="hide ? 'password' : 'text'"
-                   required formControlName="password">
-            <button type="button" mat-icon-button matSuffix (click)="hide = !hide"
-                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-            </button>
+            <input matInput required formControlName="password">
           </mat-form-field>
 
           <mat-form-field appearance="fill">
-            <mat-label>Repeat password</mat-label>
-            <input matInput [type]="hide ? 'password' : 'text'"
-                   required formControlName="password2">
-            <button type="button" mat-icon-button matSuffix (click)="hide = !hide"
-                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-            </button>
+            <mat-label>Confirm Password</mat-label>
+            <input matInput required formControlName="confirmPassword">
+            <div *ngIf="check()">Passwords not same</div>
+
+
           </mat-form-field>
 
-        </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input matInput required formControlName="email">
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>City</mat-label>
+            <input matInput required formControlName="city">
+          </mat-form-field>
+      </p>
       </mat-card-content>
       <mat-card-actions>
         <button type="submit" mat-stroked-button color="primary"
         >Register
         </button>
+
       </mat-card-actions>
     </mat-card>
   </form>
