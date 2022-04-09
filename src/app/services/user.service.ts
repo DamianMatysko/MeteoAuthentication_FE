@@ -1,13 +1,17 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {User} from '../models/user';
+import {AppConstants} from '../config/OAuth2/app.constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  readonly APIUrl = 'http://localhost:9090/api/users';
+  // readonly APIUrl = 'http://localhost:9090/api/users';
+  readonly APIUrl = 'https://meteoauth.tk/api/users';
+
+  // readonly APIUrl = AppConstants.API_BASE_URL;
 
   constructor(private httpService: HttpClient) {
   }

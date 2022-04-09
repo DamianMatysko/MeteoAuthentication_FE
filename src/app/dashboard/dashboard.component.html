@@ -1,59 +1,89 @@
-<mat-form-field>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Filter">
-</mat-form-field>
+<mat-tab-group>
+  <mat-tab label="TABLE">
 
-<div style="overflow: auto">
-  <div class="mat-elevation-z8">
-    <mat-table [dataSource]="listData" matSort>
-      <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns:columns"></mat-row>
+    <mat-form-field appearance="fill">
+      <mat-label>Station</mat-label>
+      <mat-select  [(value)]="selectedOption" placeholder="State" (selectionChange)="onChangeCategory($event)">
+        <mat-option *ngFor="let station of stations" [value]="station.value">
+          {{station.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-      <ng-container matColumnDef="id">
-        <mat-header-cell *matHeaderCellDef  mat-sort-header>id</mat-header-cell>
-        <mat-header-cell *matCellDef="let element">{{element.id}}</mat-header-cell>
-      </ng-container>
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Filter">
+    </mat-form-field>
 
-      <ng-container matColumnDef="measurement_time">
-        <mat-header-cell *matHeaderCellDef  mat-sort-header>measurement_time</mat-header-cell>
-        <mat-header-cell *matCellDef="let element">{{element.measurement_time | date}}</mat-header-cell>
-      </ng-container>
+    <div style="overflow: auto">
+      <div class="mat-elevation-z8">
+        <mat-table [dataSource]="listData" matSort>
+          <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns:columns"></mat-row>
 
-      <ng-container matColumnDef="humidity">
-        <mat-header-cell *matHeaderCellDef  mat-sort-header>humidity</mat-header-cell>
-        <mat-header-cell *matCellDef="let element">{{element.humidity}}</mat-header-cell>
-      </ng-container>
+          <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>id</mat-header-cell>
+            <mat-header-cell *matCellDef="let element">{{element.id}}</mat-header-cell>
+          </ng-container>
 
-      <ng-container matColumnDef="temperature">
-        <mat-header-cell *matHeaderCellDef  mat-sort-header>temperature</mat-header-cell>
-        <mat-header-cell *matCellDef="let element">{{element.temperature}}</mat-header-cell>
-      </ng-container>
+          <ng-container matColumnDef="measurement_time">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>measurement_time</mat-header-cell>
+            <mat-header-cell *matCellDef="let element">{{element.measurement_time | date}}</mat-header-cell>
+          </ng-container>
 
-      <ng-container matColumnDef="air_quality">
-        <mat-header-cell *matHeaderCellDef  mat-sort-header>air_quality</mat-header-cell>
-        <mat-header-cell *matCellDef="let element">{{element.air_quality}}</mat-header-cell>
-      </ng-container>
+          <ng-container matColumnDef="humidity">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>humidity</mat-header-cell>
+            <mat-header-cell *matCellDef="let element">{{element.humidity}}</mat-header-cell>
+          </ng-container>
 
-      <ng-container matColumnDef="wind_speed">
-        <mat-header-cell *matHeaderCellDef  mat-sort-header>wind_speed</mat-header-cell>
-        <mat-header-cell *matCellDef="let element">{{element.wind_speed}}</mat-header-cell>
-      </ng-container>
+          <ng-container matColumnDef="temperature">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>temperature</mat-header-cell>
+            <mat-header-cell *matCellDef="let element">{{element.temperature}}</mat-header-cell>
+          </ng-container>
 
-      <ng-container matColumnDef="wind_gusts">
-        <mat-header-cell *matHeaderCellDef  mat-sort-header>wind_gusts</mat-header-cell>
-        <mat-header-cell *matCellDef="let element">{{element.wind_gusts}}</mat-header-cell>
-      </ng-container>
+          <ng-container matColumnDef="air_quality">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>air_quality</mat-header-cell>
+            <mat-header-cell *matCellDef="let element">{{element.air_quality}}</mat-header-cell>
+          </ng-container>
 
-      <ng-container matColumnDef="wind_direction">
-        <mat-header-cell *matHeaderCellDef  mat-sort-header>wind_direction</mat-header-cell>
-        <mat-header-cell *matCellDef="let element">{{element.wind_direction}}</mat-header-cell>
-      </ng-container>
+          <ng-container matColumnDef="wind_speed">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>wind_speed</mat-header-cell>
+            <mat-header-cell *matCellDef="let element">{{element.wind_speed}}</mat-header-cell>
+          </ng-container>
 
-      <ng-container matColumnDef="rainfall">
-        <mat-header-cell *matHeaderCellDef  mat-sort-header>rainfall</mat-header-cell>
-        <mat-header-cell *matCellDef="let element">{{element.rainfall}}</mat-header-cell>
-      </ng-container>
+          <ng-container matColumnDef="wind_gusts">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>wind_gusts</mat-header-cell>
+            <mat-header-cell *matCellDef="let element">{{element.wind_gusts}}</mat-header-cell>
+          </ng-container>
 
-    </mat-table>
-  </div>
-</div>
+          <ng-container matColumnDef="wind_direction">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>wind_direction</mat-header-cell>
+            <mat-header-cell *matCellDef="let element">{{element.wind_direction}}</mat-header-cell>
+          </ng-container>
 
+          <ng-container matColumnDef="rainfall">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>rainfall</mat-header-cell>
+            <mat-header-cell *matCellDef="let element">{{element.rainfall}}</mat-header-cell>
+          </ng-container>
+
+        </mat-table>
+      </div>
+    </div>
+  </mat-tab>
+
+  <mat-tab label="GRAF">
+
+    <mat-form-field appearance="fill">
+      <mat-label>Station</mat-label>
+      <mat-select  [(value)]="selectedOption" placeholder="State" (selectionChange)="onChangeCategory($event)">
+        <mat-option *ngFor="let station of stations" [value]="station.value">
+          {{station.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div style="width:100%;">
+      <canvas id="myChart" width="700" height="250" #mychart></canvas>
+    </div>
+  </mat-tab>
+
+</mat-tab-group>

@@ -19,6 +19,9 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTableModule} from '@angular/material/table';
 import {StationDetailComponent} from './station-detail/station-detail.component';
+import {DatePipe} from '@angular/common';
+import {MatSelectModule} from '@angular/material/select';
+import {MatTabsModule} from '@angular/material/tabs';
 
 
 @NgModule({
@@ -42,9 +45,12 @@ import {StationDetailComponent} from './station-detail/station-detail.component'
     ReactiveFormsModule,
     ClipboardModule,
     MatFormFieldModule,
-    MatTableModule
+    MatTableModule,
+    MatSelectModule,
+    MatTabsModule
   ],
   providers: [
+    DatePipe,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthorizationInterceptor,

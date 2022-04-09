@@ -13,7 +13,8 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class AuthenticationService {
-  readonly APIUrl = 'http://localhost:9090/api/authentication';
+  // readonly APIUrl = 'http://localhost:9090/api/authentication';
+  readonly APIUrl = 'https://meteoauth.tk/api/authentication';
   public currentUser: Observable<User>;
 
   constructor(private httpService: HttpClient) {

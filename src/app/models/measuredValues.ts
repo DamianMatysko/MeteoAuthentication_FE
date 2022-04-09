@@ -2,7 +2,7 @@ import {Station} from './station';
 
 export class MeasuredValues {
   public id: number;
-  public measurementTime: string;
+  public measurementTime: Date;
   public humidity: number;
   public temperature: number;
   public airQuality: number;

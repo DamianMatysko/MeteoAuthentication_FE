@@ -1,26 +1,31 @@
 <mat-toolbar color="primary">
-    <span>Metheo app</span>
-    <span>
-      <button mat-flat-button color="primary" aria-label="Users" routerLink="/dashboard">
+  <span>Metheo app</span>
+  <span>
+      <button *ngIf="isLoggedIn()" mat-flat-button color="primary" aria-label="Users" routerLink="/dashboard">
         <mat-icon>dashboard</mat-icon> Dashboard
       </button>
-       <button mat-flat-button color="primary" aria-label="Stations" routerLink="/stations">
+       <button *ngIf="isLoggedIn()" mat-flat-button color="primary" aria-label="Stations" routerLink="/stations">
         <mat-icon>home</mat-icon> Stations
       </button>
-          <button mat-flat-button color="primary" aria-label="RegisterStation" routerLink="/register-station">
+          <button *ngIf="isLoggedIn()" mat-flat-button color="primary" aria-label="RegisterStation" routerLink="/register-station">
           <mat-icon>explore</mat-icon> Register station
         </button>
     </span>
 
 
-    <span class="spacer"></span>
-        <button mat-flat-button color="primary" aria-label="Register" routerLink="/register">
-          <mat-icon>person_add</mat-icon> Register
-        </button>
-        <button mat-flat-button color="primary" aria-label="Login" routerLink="/login">
-          <mat-icon>login</mat-icon> Login
-        </button>
-
-    <span>
+  <span class="spacer"></span>
+  <button *ngIf="!isLoggedIn()" mat-flat-button color="primary" aria-label="Register" routerLink="/register">
+    <mat-icon>person_add</mat-icon>
+    Register
+  </button>
+  <button *ngIf="!isLoggedIn()" mat-flat-button color="primary" aria-label="Login" routerLink="/dashboard">
+    <mat-icon>login</mat-icon>
+    Login
+  </button>
+  <button *ngIf="isLoggedIn()" (click)="logout()" mat-flat-button color="primary" aria-label="Logout" routerLink="/login">
+    <mat-icon>logout</mat-icon>
+    Logout
+  </button>
+  <span>
     </span>
-  </mat-toolbar>
+</mat-toolbar>

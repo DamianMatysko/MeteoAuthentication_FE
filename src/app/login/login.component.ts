@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit {
       this.currentUser = this.tokenStorage.getUser();
     } else if (token) {
       this.tokenStorage.saveToken(token);
+      this.router.navigate(['dashboard']);
       this.authenticationService.getCurrentUser().subscribe(
         data => {
           this.loginAuth(data);
@@ -78,7 +79,7 @@ export class LoginComponent implements OnInit {
         throw err;
       })
     ).subscribe(token => {
-      localStorage.setItem(JWT_KEY, token.jwt);
+      sessionStorage.setItem('auth-token', token.jwt);
       this.router.navigate(['dashboard']);
     });
   }
