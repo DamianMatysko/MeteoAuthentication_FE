@@ -3,10 +3,10 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {User} from '../models/user';
 import {Jwt} from '../models/jwt';
-import {AppConstants} from '../config/OAuth2/app.constants';
+import {TokenStorageService} from "./token-storage.service";
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({'Content-Type': 'application/json'})
 };
 
 @Injectable({
@@ -17,13 +17,21 @@ export class AuthenticationService {
   readonly APIUrl = 'https://meteoauth.tk/api/authentication';
   public currentUser: Observable<User>;
 
-  constructor(private httpService: HttpClient) {
+  constructor(private httpService: HttpClient,
+              private token: TokenStorageService) {
   }
 
   authenticate(mail: string, pass: string): Observable<Jwt> {
     return this.httpService.post<Jwt>(this.APIUrl + '/authenticate', {
       username: mail,
       password: pass
+    });
+  }
+
+  refreshToken(token: string): Observable<Jwt> {
+    return this.httpService.post<Jwt>(this.APIUrl + '/refreshToken', {
+      // jwt: this.token.getRefreshToken()
+      jwt: token
     });
   }
 
