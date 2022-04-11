@@ -1,14 +1,12 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
+import {Station} from '../models/station';
 import {MatSort} from '@angular/material/sort';
 import {StationsService} from '../services/stations.service';
-import {Station} from '../models/station';
 import {AuthenticationService} from '../services/authentication.service';
-import {first} from 'rxjs/operators';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {first} from 'rxjs/operators';
 import {ShowTokenComponent} from '../show-token/show-token.component';
-import {Router} from '@angular/router';
-
 
 @Component({
   selector: 'app-stations',
@@ -19,18 +17,14 @@ export class StationsComponent implements OnInit {
 
   columns = ['id', 'title', 'destination', 'model_description', 'registration_time', 'phone', 'actions'];
   listData: MatTableDataSource<Station>;
-
-
   @ViewChild(MatSort) sort: MatSort;
   token: string | null = null;
 
   constructor(private stationsService: StationsService,
               private authenticationServiceService: AuthenticationService,
-              private dialog: MatDialog,
-              private router: Router) {
+              private dialog: MatDialog) {
 
   }
-
 
   private refreshList(): void {
     this.stationsService.getUserStations().subscribe(stations => {
@@ -59,10 +53,6 @@ export class StationsComponent implements OnInit {
         data: {token: this.token}
       });
     });
-
   }
 
-  getStationDetail(id: number): void {
-    this.router.navigate(['station-detail', id]);
-  }
 }

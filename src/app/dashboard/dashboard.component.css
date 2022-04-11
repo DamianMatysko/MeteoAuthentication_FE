@@ -1,9 +1,5 @@
-table {
-    width: 100%;
-  }
-  
-  .mat-form-field {
-    font-size: 14px;
-    width: 100%;
-    margin-left: 20px;
-  }
+.flex-container {
+  display: flex;
+  align-content: flex-start;
+  gap: 10px;
+}

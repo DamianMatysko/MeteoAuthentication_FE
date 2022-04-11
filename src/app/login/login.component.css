@@ -5,14 +5,15 @@
     justify-items: center;
     align-items: center;
   }
-  
+
   .login-wrapper mat-card-header,
   .login-wrapper mat-card-actions {
     display: flex;
     justify-content: center;
   }
-  
+
   .login-wrapper mat-form-field {
     display: block;
   }
-  
+
+

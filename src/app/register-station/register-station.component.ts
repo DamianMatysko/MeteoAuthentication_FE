@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {StationsService} from '../services/stations.service';
 import {catchError, first} from 'rxjs/operators';
 import {Router} from '@angular/router';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-register-station',
@@ -19,7 +20,8 @@ export class RegisterStationComponent implements OnInit {
   });
 
   constructor(private stationsService: StationsService,
-              private router: Router) {
+              private router: Router,
+              private snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
@@ -35,11 +37,14 @@ export class RegisterStationComponent implements OnInit {
     this.stationsService.addUserStations(station).pipe(
       first(),
       catchError(err => {
-        console.warn('wrong credentials');
+        this.snackBar.open('Error: ' + err.status + ' wrong credentials', 'cancel',
+          {duration: 2000, panelClass: ['blue-snackbar']});
         throw err;
       })
     ).subscribe(value => {
       this.router.navigate(['stations']);
+      this.snackBar.open('Success' , 'ok',
+        {duration: 2000, panelClass: ['blue-snackbar']});
     });
   }
 

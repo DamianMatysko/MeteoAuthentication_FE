@@ -6,6 +6,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {catchError, first} from 'rxjs/operators';
 import {AppConstants} from '../config/OAuth2/app.constants';
 import {TokenStorageService} from '../services/token-storage.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 
 @Component({
@@ -33,7 +34,8 @@ export class LoginComponent implements OnInit {
   constructor(private authenticationService: AuthenticationService,
               private router: Router,
               private route: ActivatedRoute,
-              private tokenStorage: TokenStorageService) {
+              private tokenStorage: TokenStorageService,
+              private snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
@@ -66,24 +68,27 @@ export class LoginComponent implements OnInit {
     this.isLoggedIn = true;
     this.currentUser = this.tokenStorage.getUser();
     window.location.reload();
-   // this.router.navigate(['dashboard']);
+    // this.router.navigate(['dashboard']);
   }
 
   login(): any {
     const {email, pass} = this.form.getRawValue() as { email: string, pass: string };
-    // console.log(email + ' ' + pass);
     this.authenticationService.authenticate(email, pass).pipe(
       first(),
       catchError(err => {
-        console.warn('wrong credentials');
+        this.snackBar.open('Error: ' + err.status + ' wrong credentials', 'cancel',
+          {duration: 2000, panelClass: ['blue-snackbar']});
         throw err;
       })
     ).subscribe(token => {
+      console.log(token);
       sessionStorage.setItem('auth-token', token.jwt);
+      sessionStorage.setItem('auth-refresh-token', token.refreshToken);
       this.router.navigate(['dashboard']);
+      this.snackBar.open('Success' , 'ok',
+        {duration: 2000, panelClass: ['blue-snackbar']});
     });
   }
-
 
 
 }

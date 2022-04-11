@@ -1,5 +1,6 @@
 export interface Jwt {
   jwt: string;
+  refreshToken: string;
 }
 
 export interface JwtPayload {

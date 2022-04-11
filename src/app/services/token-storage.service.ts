@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 const TOKEN_KEY = 'auth-token';
+const REFRESH_TOKEN_KEY = 'auth-refresh-token';
 const USER_KEY = 'auth-user';
 
 @Injectable({
@@ -8,7 +9,8 @@ const USER_KEY = 'auth-user';
 })
 export class TokenStorageService {
 
-  constructor() { }
+  constructor() {
+  }
 
   signOut(): void {
     window.sessionStorage.clear();
@@ -19,8 +21,17 @@ export class TokenStorageService {
     window.sessionStorage.setItem(TOKEN_KEY, token);
   }
 
+  public saveRefreshToken(token: string): void {
+    window.sessionStorage.removeItem(REFRESH_TOKEN_KEY);
+    window.sessionStorage.setItem(REFRESH_TOKEN_KEY, token);
+  }
+
   public getToken(): string {
     return sessionStorage.getItem(TOKEN_KEY);
+  }
+
+  public getRefreshToken(): string {
+    return sessionStorage.getItem(REFRESH_TOKEN_KEY);
   }
 
   public saveUser(user): void {

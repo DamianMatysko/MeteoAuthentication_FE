@@ -5,6 +5,7 @@ import {AuthenticationService} from '../services/authentication.service';
 import {catchError, first} from 'rxjs/operators';
 import {GoogleLoginProvider, SocialAuthService} from 'angularx-social-login';
 import {JWT_KEY} from '../config/constants';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 
 
@@ -28,7 +29,8 @@ export class RegisterComponent implements OnInit {
   });
 
   constructor(private router: Router,
-              private authenticationService: AuthenticationService) {
+              private authenticationService: AuthenticationService,
+              private snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
@@ -36,7 +38,6 @@ export class RegisterComponent implements OnInit {
   check(): boolean {
     return this.regForm.hasError('notSame');
   }
-
 
   checkPasswords(group: AbstractControl): ValidationErrors | null {
     console.log(group);
@@ -56,11 +57,14 @@ export class RegisterComponent implements OnInit {
     this.authenticationService.registerUser(user).pipe(
       first(),
       catchError(err => {
-        console.warn('wrong credentials');
+        this.snackBar.open('Error: ' + err.status + ' wrong credentials', 'cancel',
+          {duration: 2000, panelClass: ['blue-snackbar']});
         throw err;
       })
     ).subscribe(value => {
       this.router.navigate(['login']);
+      this.snackBar.open('Success' , 'ok',
+        {duration: 2000, panelClass: ['blue-snackbar']});
     });
   }
 

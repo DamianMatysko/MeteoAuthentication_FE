@@ -1,12 +1,12 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {MatSort} from '@angular/material/sort';
+import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
+import { MatSort } from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-import {MeasuredValues} from 'src/app/models/measuredValues';
+import {MeasuredValues} from '../models/measuredValues';
 import {MeasuredValuesService} from '../services/measured-values.service';
-import {MatDialog} from '@angular/material/dialog';
-import {MatSnackBar} from '@angular/material/snack-bar';
 import {StationsService} from '../services/stations.service';
-import Chart, {ChartConfiguration} from 'chart.js/auto';
+import {ChartConfiguration} from 'chart.js';
+import Chart from 'chart.js/auto';
+import 'chartjs-adapter-moment';
 
 interface Stations {
   value: string;
@@ -23,7 +23,7 @@ export class DashboardComponent implements AfterViewInit {
 
   @ViewChild('toto', {static: true}) mySelect: ElementRef;
   @ViewChild(MatSort) sort: MatSort;
-  columns = ['id', 'measurement_time', 'humidity', 'temperature', 'air_quality', 'wind_speed', 'wind_gusts', 'wind_direction', 'rainfall'];
+  columns = ['measurement_time', 'humidity', 'temperature', 'air_quality', 'wind_speed', 'wind_gusts', 'wind_direction', 'rainfall'];
   canvas: any;
   ctx: any;
   myChart: any;
@@ -33,9 +33,7 @@ export class DashboardComponent implements AfterViewInit {
   selectedOption = '0';
 
   constructor(private measuredValuesService: MeasuredValuesService,
-              private stationsService: StationsService,
-              private dialog: MatDialog,
-              private snackBar: MatSnackBar) {
+              private stationsService: StationsService) {
   }
 
   async ngAfterViewInit(): Promise<void> {
@@ -60,6 +58,18 @@ export class DashboardComponent implements AfterViewInit {
             borderColor: 'rgb(255, 99, 132)',
             data: [],
           },
+          {
+            label: 'Humidity',
+            backgroundColor: 'rgba(99,107,255,0.4)',
+            borderColor: 'rgb(99,143,255)',
+            data: [],
+          },
+          {
+            label: 'Air quality',
+            backgroundColor: 'rgba(12,105,3,0.4)',
+            borderColor: 'rgb(161,255,99)',
+            data: [],
+          },
         ],
       },
       options: {
@@ -67,6 +77,12 @@ export class DashboardComponent implements AfterViewInit {
         scales: {
           xAxis: {
             type: 'time',
+            time: {
+              unit: 'hour',
+              displayFormats: {
+                hour: 'HH:mm',
+              },
+            },
             position: 'bottom',
           },
         },
@@ -78,7 +94,7 @@ export class DashboardComponent implements AfterViewInit {
   private setSelectBox(): void {
     this.stationsService.getUserStations().subscribe(value => {
       for (let i = 0; i < value.length; i++) {
-        let temp: Stations = {value: i.toString(), viewValue: value[i].title, id: value[i].id};
+        const temp: Stations = {value: i.toString(), viewValue: value[i].title, id: value[i].id};
         this.stations.push(temp);
       }
       this.getMeasuretValues(this.stations[0].id);
@@ -99,16 +115,33 @@ export class DashboardComponent implements AfterViewInit {
   getMeasuretValues(id: number): void {
     this.measuredValuesService.getByStation(id)
       .subscribe((values) => {
+        console.log(values);
         this.listData = new MatTableDataSource(values);
         this.listData.sort = this.sort;
-        const dataForGraf = values.map((res) => {
+        const temperature = values.map((res) => {
           return {
             x: new Date(res.measurement_time),
             y: res.temperature,
           };
         });
+        const humidity = values.map((res) => {
+          return {
+            x: new Date(res.measurement_time),
+            y: res.humidity,
+          };
+        });
+        const airQuality = values.map((res) => {
+          return {
+            x: new Date(res.measurement_time),
+            y: res.air_quality,
+          };
+        });
         this.myChart.data.datasets[0].data = [];
-        this.myChart.data.datasets[0].data.push(...dataForGraf);
+        this.myChart.data.datasets[1].data = [];
+        this.myChart.data.datasets[2].data = [];
+        this.myChart.data.datasets[0].data.push(...temperature);
+        this.myChart.data.datasets[1].data.push(...humidity);
+        this.myChart.data.datasets[2].data.push(...airQuality);
         this.myChart.update();
       });
   }

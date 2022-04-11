@@ -18,10 +18,10 @@ import {ShowTokenComponent} from './show-token/show-token.component';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTableModule} from '@angular/material/table';
-import {StationDetailComponent} from './station-detail/station-detail.component';
 import {DatePipe} from '@angular/common';
 import {MatSelectModule} from '@angular/material/select';
 import {MatTabsModule} from '@angular/material/tabs';
+
 
 
 @NgModule({
@@ -33,8 +33,7 @@ import {MatTabsModule} from '@angular/material/tabs';
     DashboardComponent,
     StationsComponent,
     RegisterStationComponent,
-    ShowTokenComponent,
-    StationDetailComponent
+    ShowTokenComponent
   ],
   imports: [
     BrowserModule,

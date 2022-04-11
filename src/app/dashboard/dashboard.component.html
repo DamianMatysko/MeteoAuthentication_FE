@@ -1,18 +1,21 @@
-<mat-tab-group>
+<mat-tab-group mat-stretch-tabs>
   <mat-tab label="TABLE">
 
-    <mat-form-field appearance="fill">
-      <mat-label>Station</mat-label>
-      <mat-select  [(value)]="selectedOption" placeholder="State" (selectionChange)="onChangeCategory($event)">
-        <mat-option *ngFor="let station of stations" [value]="station.value">
-          {{station.viewValue}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <ul class="flex-container">
+      <mat-form-field appearance="fill">
+        <mat-label>Station</mat-label>
+        <mat-select [(value)]="selectedOption" placeholder="State" (selectionChange)="onChangeCategory($event)">
+          <mat-option *ngFor="let station of stations" [value]="station.value">
+            {{station.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Filter">
-    </mat-form-field>
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Filter">
+      </mat-form-field>
+    </ul>
+
 
     <div style="overflow: auto">
       <div class="mat-elevation-z8">
@@ -27,7 +30,7 @@
 
           <ng-container matColumnDef="measurement_time">
             <mat-header-cell *matHeaderCellDef mat-sort-header>measurement_time</mat-header-cell>
-            <mat-header-cell *matCellDef="let element">{{element.measurement_time | date}}</mat-header-cell>
+            <mat-header-cell *matCellDef="let element">{{element.measurement_time | date:'y, MMM d, HH:mm:ss'}}</mat-header-cell>
           </ng-container>
 
           <ng-container matColumnDef="humidity">
@@ -71,19 +74,20 @@
   </mat-tab>
 
   <mat-tab label="GRAF">
-
-    <mat-form-field appearance="fill">
-      <mat-label>Station</mat-label>
-      <mat-select  [(value)]="selectedOption" placeholder="State" (selectionChange)="onChangeCategory($event)">
-        <mat-option *ngFor="let station of stations" [value]="station.value">
-          {{station.viewValue}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
+    <ul class="flex-container">
+      <mat-form-field appearance="fill">
+        <mat-label>Station</mat-label>
+        <mat-select [(value)]="selectedOption" placeholder="State" (selectionChange)="onChangeCategory($event)">
+          <mat-option *ngFor="let station of stations" [value]="station.value">
+            {{station.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </ul>
     <div style="width:100%;">
       <canvas id="myChart" width="700" height="250" #mychart></canvas>
     </div>
   </mat-tab>
 
 </mat-tab-group>
+
