@@ -5,8 +5,9 @@ import {MatSort} from '@angular/material/sort';
 import {StationsService} from '../services/stations.service';
 import {AuthenticationService} from '../services/authentication.service';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import {first} from 'rxjs/operators';
+import {catchError, first} from 'rxjs/operators';
 import {ShowTokenComponent} from '../show-token/show-token.component';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-stations',
@@ -15,14 +16,15 @@ import {ShowTokenComponent} from '../show-token/show-token.component';
 })
 export class StationsComponent implements OnInit {
 
-  columns = ['id', 'title', 'destination', 'model_description', 'registration_time', 'phone', 'actions'];
+  columns = ['title', 'destination', 'model_description', 'registration_time', 'phone', 'actions'];
   listData: MatTableDataSource<Station>;
   @ViewChild(MatSort) sort: MatSort;
   token: string | null = null;
 
   constructor(private stationsService: StationsService,
               private authenticationServiceService: AuthenticationService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private snackBar: MatSnackBar) {
 
   }
 
@@ -53,6 +55,23 @@ export class StationsComponent implements OnInit {
         data: {token: this.token}
       });
     });
+  }
+
+  deleteStation(id: number): void {
+    if (confirm('Are you sure to delete?')) {
+      this.stationsService.deleteUserStations(id).pipe(
+        first(),
+        catchError(err => {
+          this.snackBar.open('Error: ' + err.status + ' wrong credentials', 'cancel',
+            {duration: 2000, panelClass: ['blue-snackbar']});
+          throw err;
+        })
+      ).subscribe(value => {
+        location.reload();
+        this.snackBar.open('Success' , 'ok',
+          {duration: 2000, panelClass: ['blue-snackbar']});
+      });
+    }
   }
 
 }

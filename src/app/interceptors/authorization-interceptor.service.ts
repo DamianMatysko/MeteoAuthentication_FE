@@ -26,13 +26,13 @@ export class AuthorizationInterceptor implements HttpInterceptor {
       authReq = this.addTokenHeader(request, token);
     }
     return next.handle(authReq).pipe(catchError(error => {
-      if (error instanceof HttpErrorResponse && !authReq.url.includes('/login') && error.status === 401) {
+      console.log(authReq.url.toString());
+      if (error instanceof HttpErrorResponse && !authReq.url.includes('/authenticate') && error.status === 401) {
         return this.handle401Error(authReq, next);
       }
       return throwError(error);
     }));
   }
-
 
   private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
     if (!this.isRefreshing) {
@@ -65,7 +65,7 @@ export class AuthorizationInterceptor implements HttpInterceptor {
   }
 
   private addTokenHeader(request: HttpRequest<any>, token: string): HttpRequest<unknown> {
-    return request.clone({ headers: request.headers.set(TOKEN_HEADER_KEY, 'Bearer ' + token) });
+    return request.clone({headers: request.headers.set(TOKEN_HEADER_KEY, 'Bearer ' + token)});
   }
 
 }

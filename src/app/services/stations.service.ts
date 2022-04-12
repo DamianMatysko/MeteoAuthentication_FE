@@ -27,6 +27,10 @@ export class StationsService {
       phone: station.phone
     });
   }
+
+  deleteUserStations(id: number): Observable<unknown> {
+    return this.httpService.delete(this.APIUrl + '/' + id); // `/${id}`
+  }
 }
 
 

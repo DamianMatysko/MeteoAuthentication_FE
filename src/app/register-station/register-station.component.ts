@@ -3,7 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {StationsService} from '../services/stations.service';
 import {catchError, first} from 'rxjs/operators';
 import {Router} from '@angular/router';
-import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register-station',
