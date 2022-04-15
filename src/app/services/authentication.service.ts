@@ -3,7 +3,6 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {User} from '../models/user';
 import {Jwt} from '../models/jwt';
-import {TokenStorageService} from "./token-storage.service";
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -17,8 +16,7 @@ export class AuthenticationService {
   readonly APIUrl = 'https://meteoauth.tk/api/authentication';
   public currentUser: Observable<User>;
 
-  constructor(private httpService: HttpClient,
-              private token: TokenStorageService) {
+  constructor(private httpService: HttpClient) {
   }
 
   authenticate(mail: string, pass: string): Observable<Jwt> {

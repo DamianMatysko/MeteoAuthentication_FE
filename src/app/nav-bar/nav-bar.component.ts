@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TokenStorageService} from '../services/token-storage.service';
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-nav-bar',
@@ -9,19 +8,17 @@ import {Router} from "@angular/router";
 })
 export class NavBarComponent implements OnInit {
 
-  constructor( private tokenStorage: TokenStorageService) { }
+  constructor(private tokenStorage: TokenStorageService) {
+  }
 
   ngOnInit(): void {
   }
 
-  isLoggedIn() {
-    if (this.tokenStorage.getToken() != null){
-      return true;
-    }
-    return false;
+  isLoggedIn(): boolean {
+    return this.tokenStorage.getToken() != null;
   }
 
-  logout() {
+  logout(): void {
     this.tokenStorage.signOut();
   }
 }

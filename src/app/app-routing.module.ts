@@ -8,7 +8,9 @@ import {StationsComponent} from './stations/stations.component';
 import {RegisterStationComponent} from './register-station/register-station.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: 'login', pathMatch: 'full'},
+  {
+    path: '', redirectTo: 'login', pathMatch: 'full'
+  },
   {
     path: 'login', component: LoginComponent
   },

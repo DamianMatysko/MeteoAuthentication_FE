@@ -36,8 +36,8 @@ export class StationsComponent implements OnInit {
     });
   }
 
-  applyFilter(filtervalue: KeyboardEvent): void {
-    this.listData.filter = (filtervalue.target as HTMLInputElement).value.trim().toLocaleLowerCase();
+  applyFilter(filterValue: KeyboardEvent): void {
+    this.listData.filter = (filterValue.target as HTMLInputElement).value.trim().toLocaleLowerCase();
   }
 
   ngOnInit(): void {

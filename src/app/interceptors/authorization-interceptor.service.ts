@@ -19,11 +19,15 @@ export class AuthorizationInterceptor implements HttpInterceptor {
   private isRefreshing = false;
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
+  private static addTokenHeader(request: HttpRequest<any>, token: string): HttpRequest<unknown> {
+    return request.clone({headers: request.headers.set(TOKEN_HEADER_KEY, 'Bearer ' + token)});
+  }
+
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     let authReq = request;
     const token = this.token.getToken();
     if (token != null) {
-      authReq = this.addTokenHeader(request, token);
+      authReq = AuthorizationInterceptor.addTokenHeader(request, token);
     }
     return next.handle(authReq).pipe(catchError(error => {
       console.log(authReq.url.toString());
@@ -47,7 +51,7 @@ export class AuthorizationInterceptor implements HttpInterceptor {
             this.token.saveRefreshToken(jwt.refreshToken);
             this.refreshTokenSubject.next(jwt.jwt);
 
-            return next.handle(this.addTokenHeader(request, jwt.jwt));
+            return next.handle(AuthorizationInterceptor.addTokenHeader(request, jwt.jwt));
           }),
           catchError((err) => {
             this.isRefreshing = false;
@@ -60,12 +64,8 @@ export class AuthorizationInterceptor implements HttpInterceptor {
     return this.refreshTokenSubject.pipe(
       filter(token => token !== null),
       take(1),
-      switchMap((token) => next.handle(this.addTokenHeader(request, token)))
+      switchMap((token) => next.handle(AuthorizationInterceptor.addTokenHeader(request, token)))
     );
-  }
-
-  private addTokenHeader(request: HttpRequest<any>, token: string): HttpRequest<unknown> {
-    return request.clone({headers: request.headers.set(TOKEN_HEADER_KEY, 'Bearer ' + token)});
   }
 
 }

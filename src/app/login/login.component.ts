@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthenticationService} from '../services/authentication.service';
-import {JWT_KEY} from '../config/constants';
 import {ActivatedRoute, Router} from '@angular/router';
 import {catchError, first} from 'rxjs/operators';
 import {AppConstants} from '../config/OAuth2/app.constants';
@@ -21,11 +20,8 @@ export class LoginComponent implements OnInit {
   errorMessage = '';
   currentUser: any;
   googleURL = AppConstants.GOOGLE_AUTH_URL;
-  facebookURL = AppConstants.FACEBOOK_AUTH_URL;
-  githubURL = AppConstants.GITHUB_AUTH_URL;
-  linkedinURL = AppConstants.LINKEDIN_AUTH_URL;
-
   hide = true;
+
   public form = new FormGroup({
     email: new FormControl(null, [Validators.required]),
     pass: new FormControl(null, [Validators.required]),
@@ -68,7 +64,6 @@ export class LoginComponent implements OnInit {
     this.isLoggedIn = true;
     this.currentUser = this.tokenStorage.getUser();
     window.location.reload();
-    // this.router.navigate(['dashboard']);
   }
 
   login(): any {
@@ -85,10 +80,9 @@ export class LoginComponent implements OnInit {
       sessionStorage.setItem('auth-token', token.jwt);
       sessionStorage.setItem('auth-refresh-token', token.refreshToken);
       this.router.navigate(['dashboard']);
-      this.snackBar.open('Success' , 'ok',
+      this.snackBar.open('Success', 'ok',
         {duration: 2000, panelClass: ['blue-snackbar']});
     });
   }
-
 
 }

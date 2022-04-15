@@ -1,10 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
+import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../services/authentication.service';
 import {catchError, first} from 'rxjs/operators';
-import {GoogleLoginProvider, SocialAuthService} from 'angularx-social-login';
-import {JWT_KEY} from '../config/constants';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 

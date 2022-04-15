@@ -2,7 +2,6 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MatDialogRef} from '@angular/material/dialog';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 
-
 @Component({
   selector: 'app-show-token',
   templateUrl: './show-token.component.html',
@@ -11,7 +10,7 @@ import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 export class ShowTokenComponent implements OnInit {
   token: string;
 
-  constructor(public dialogbox: MatDialogRef<ShowTokenComponent>,
+  constructor(public dialogBox: MatDialogRef<ShowTokenComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
@@ -19,7 +18,7 @@ export class ShowTokenComponent implements OnInit {
   }
 
   onClose(): void {
-    this.dialogbox.close();
+    this.dialogBox.close();
   }
 
 }

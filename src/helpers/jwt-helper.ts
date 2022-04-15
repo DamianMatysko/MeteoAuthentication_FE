@@ -5,7 +5,6 @@ export class JwtHelper {
     try {
       console.log(token);
       return JSON.parse(atob(token.split('.')[1]));
-      //return JSON.parse(token);
     } catch (e) {
       return null;
     }

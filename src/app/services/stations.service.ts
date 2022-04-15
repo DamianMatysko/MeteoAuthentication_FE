@@ -32,5 +32,3 @@ export class StationsService {
     return this.httpService.delete(this.APIUrl + '/' + id); // `/${id}`
   }
 }
-
-
