@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
-import { MatSort } from '@angular/material/sort';
+import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {MeasuredValues} from '../models/measuredValues';
 import {MeasuredValuesService} from '../services/measured-values.service';
@@ -22,12 +22,15 @@ interface Stations {
 export class DashboardComponent implements AfterViewInit {
 
   @ViewChild('toto', {static: true}) mySelect: ElementRef;
+  fromDate: any;
+  toDate: any;
+  selectedStationID: number;
   @ViewChild(MatSort) sort: MatSort;
   columns = ['measurement_time', 'humidity', 'temperature', 'air_quality', 'wind_speed', 'wind_gusts', 'wind_direction', 'rainfall'];
   canvas: any;
   ctx: any;
   myChart: any;
-  @ViewChild('mychart') mychart;
+  @ViewChild('chart') chart;
   listData: MatTableDataSource<MeasuredValues>;
   stations: Array<Stations> = [];
   selectedOption = '0';
@@ -38,15 +41,21 @@ export class DashboardComponent implements AfterViewInit {
 
   async ngAfterViewInit(): Promise<void> {
     this.setSelectBox();
-    this.setupGraf();
+    this.setupChart();
   }
 
-  onChangeCategory(event): void {
-    this.getMeasuretValues(this.stations[event.value].id);
+  onChangeStation(event): void {
+    console.log(event.value);
+    this.selectedStationID = this.stations[event.value].id;
+    if (this.toDate != null && this.fromDate != null) {
+      this.formatChart();
+    } else {
+      this.getMeasuredValues(this.stations[event.value].id);
+    }
   }
 
-  setupGraf(): void {
-    this.canvas = this.mychart.nativeElement;
+  setupChart(): void {
+    this.canvas = this.chart.nativeElement;
     this.ctx = this.canvas.getContext('2d');
     const config: ChartConfiguration = {
       type: 'line',
@@ -63,12 +72,14 @@ export class DashboardComponent implements AfterViewInit {
             backgroundColor: 'rgba(99,107,255,0.4)',
             borderColor: 'rgb(99,143,255)',
             data: [],
+            hidden: true,
           },
           {
             label: 'Air quality',
             backgroundColor: 'rgba(12,105,3,0.4)',
             borderColor: 'rgb(161,255,99)',
             data: [],
+            hidden: true,
           },
         ],
       },
@@ -97,52 +108,86 @@ export class DashboardComponent implements AfterViewInit {
         const temp: Stations = {value: i.toString(), viewValue: value[i].title, id: value[i].id};
         this.stations.push(temp);
       }
-      this.getMeasuretValues(this.stations[0].id);
+      this.selectedStationID = (this.stations[0].id);
+      this.getMeasuredValues(this.stations[0].id);
     });
   }
 
-  private refreshList(id: number): void {
-    this.measuredValuesService.getByStation(id).subscribe(value => {
-      this.listData = new MatTableDataSource(value);
-      this.listData.sort = this.sort;
-    });
+  applyFilter(filterValue: KeyboardEvent): void {
+    this.listData.filter = (filterValue.target as HTMLInputElement).value.trim().toLocaleLowerCase();
   }
 
-  applyFilter(filtervalue: KeyboardEvent): void {
-    this.listData.filter = (filtervalue.target as HTMLInputElement).value.trim().toLocaleLowerCase();
-  }
-
-  getMeasuretValues(id: number): void {
+  getMeasuredValues(id: number): void {
     this.measuredValuesService.getByStation(id)
       .subscribe((values) => {
-        console.log(values);
-        this.listData = new MatTableDataSource(values);
-        this.listData.sort = this.sort;
-        const temperature = values.map((res) => {
-          return {
-            x: new Date(res.measurement_time),
-            y: res.temperature,
-          };
+          this.setDataForChart(values);
+          this.setDataForTable(values);
+        }
+      );
+  }
+
+  setDataForTable(measuredValues: any): void {
+    this.listData = new MatTableDataSource(measuredValues);
+    this.listData.sort = this.sort;
+  }
+
+  setDataForChart(measuredValues: any): void {
+    const temperature = measuredValues.map((res) => {
+      return {
+        x: new Date(res.measurement_time),
+        y: res.temperature,
+      };
+    });
+    const humidity = measuredValues.map((res) => {
+      return {
+        x: new Date(res.measurement_time),
+        y: res.humidity,
+      };
+    });
+    const airQuality = measuredValues.map((res) => {
+      return {
+        x: new Date(res.measurement_time),
+        y: res.air_quality,
+      };
+    });
+    this.myChart.data.datasets[0].data = [];
+    this.myChart.data.datasets[1].data = [];
+    this.myChart.data.datasets[2].data = [];
+    this.myChart.data.datasets[0].data.push(...temperature);
+    this.myChart.data.datasets[1].data.push(...humidity);
+    this.myChart.data.datasets[2].data.push(...airQuality);
+    this.myChart.update();
+  }
+
+  saveFromDate(fromDate: string): void {
+    this.fromDate = fromDate;
+    if (this.toDate != null) {
+      this.formatChart();
+    }
+  }
+
+  saveToDate(toDate: string): void {
+    this.toDate = toDate;
+    if (this.fromDate != null) {
+      this.formatChart();
+    }
+  }
+
+  formatChart(): void {
+    console.log(this.fromDate + ' - ' + this.toDate);
+    this.measuredValuesService.getByStation(this.selectedStationID)
+      .subscribe((values) => {
+        const newValues = values.map((res) => {
+          const addOneDay = new Date(this.toDate);
+          addOneDay.setDate(addOneDay.getDate() + 1);
+          if (new Date(res.measurement_time) >= new Date(this.fromDate) && new Date(res.measurement_time) <= addOneDay) {
+            return res;
+          }
+        }).filter((res) => {
+          return res !== undefined;
         });
-        const humidity = values.map((res) => {
-          return {
-            x: new Date(res.measurement_time),
-            y: res.humidity,
-          };
-        });
-        const airQuality = values.map((res) => {
-          return {
-            x: new Date(res.measurement_time),
-            y: res.air_quality,
-          };
-        });
-        this.myChart.data.datasets[0].data = [];
-        this.myChart.data.datasets[1].data = [];
-        this.myChart.data.datasets[2].data = [];
-        this.myChart.data.datasets[0].data.push(...temperature);
-        this.myChart.data.datasets[1].data.push(...humidity);
-        this.myChart.data.datasets[2].data.push(...airQuality);
-        this.myChart.update();
+        console.log(newValues);
+        this.setDataForChart(newValues);
       });
   }
 

@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router} from '@angular/router';
 import {Observable} from 'rxjs';
-import {JWT_KEY} from '../config/constants';
 import {JwtHelper} from '../../helpers/jwt-helper';
 import {TokenStorageService} from '../services/token-storage.service';
 

@@ -4,7 +4,7 @@
     <ul class="flex-container">
       <mat-form-field appearance="fill">
         <mat-label>Station</mat-label>
-        <mat-select [(value)]="selectedOption" placeholder="State" (selectionChange)="onChangeCategory($event)">
+        <mat-select [(value)]="selectedOption" placeholder="State" (selectionChange)="onChangeStation($event)">
           <mat-option *ngFor="let station of stations" [value]="station.value">
             {{station.viewValue}}
           </mat-option>
@@ -15,7 +15,6 @@
         <input matInput (keyup)="applyFilter($event)" placeholder="Filter">
       </mat-form-field>
     </ul>
-
 
     <div style="overflow: auto">
       <div class="mat-elevation-z8">
@@ -30,7 +29,8 @@
 
           <ng-container matColumnDef="measurement_time">
             <mat-header-cell *matHeaderCellDef mat-sort-header>measurement_time</mat-header-cell>
-            <mat-header-cell *matCellDef="let element">{{element.measurement_time | date:'y, MMM d, HH:mm:ss'}}</mat-header-cell>
+            <mat-header-cell
+              *matCellDef="let element">{{element.measurement_time | date:'y, MMM d, HH:mm:ss'}}</mat-header-cell>
           </ng-container>
 
           <ng-container matColumnDef="humidity">
@@ -73,20 +73,39 @@
     </div>
   </mat-tab>
 
-  <mat-tab label="GRAF">
+  <mat-tab label="CHART">
+
     <ul class="flex-container">
       <mat-form-field appearance="fill">
         <mat-label>Station</mat-label>
-        <mat-select [(value)]="selectedOption" placeholder="State" (selectionChange)="onChangeCategory($event)">
+        <mat-select [(value)]="selectedOption" placeholder="State" (selectionChange)="onChangeStation($event)">
           <mat-option *ngFor="let station of stations" [value]="station.value">
             {{station.viewValue}}
           </mat-option>
         </mat-select>
       </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Choose a date from</mat-label>
+        <input matInput #fromDate [matDatepicker]="pickerFrom" (dateChange)="saveFromDate(fromDate.value)">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+        <mat-datepicker #pickerFrom></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Choose a date to</mat-label>
+        <input matInput #toDate  [matDatepicker]="pickerTo" (dateChange)="saveToDate(toDate.value)">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+        <mat-datepicker #pickerTo></mat-datepicker>
+      </mat-form-field>
     </ul>
-    <div class="graf">
-      <canvas id="myChart" width="700" height="250" #mychart></canvas>
+
+    <div class="chart">
+      <canvas id="chart" width="700" height="250" #chart></canvas>
     </div>
+
   </mat-tab>
 
 </mat-tab-group>

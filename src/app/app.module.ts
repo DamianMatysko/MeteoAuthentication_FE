@@ -21,7 +21,8 @@ import {MatTableModule} from '@angular/material/table';
 import {DatePipe} from '@angular/common';
 import {MatSelectModule} from '@angular/material/select';
 import {MatTabsModule} from '@angular/material/tabs';
-
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
 
 
 @NgModule({
@@ -46,10 +47,13 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatFormFieldModule,
     MatTableModule,
     MatSelectModule,
-    MatTabsModule
+    MatTabsModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
     DatePipe,
+    MatDatepickerModule,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthorizationInterceptor,
